@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+<style>
+
+    
+</style>
+{% block content %}
+
+
+        <div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+            <div class="" style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+                <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 70vh; overflow-y: auto;">
+                    <div class="tabs">
+                        <button class="tab-button w3-small active" data-tab="tab1">{{ user.username }}</button>
+                        <button class="tab-button w3-small" data-tab="tab4">Notifications</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            <div class="profile-container w3-small" style="background: transparent;">
+                                <!-- Profile Header -->
+                                <div class="profile-header w3-third" style="color: #00407d;">
+                                    <img src="{{ user.avatar(128) }}">
+                                    <h2 style="color: #00407d;">{{current_user.username}}</h2>
+                                    <p style="color: #00407d;" class="w3-small">{{current_user.email}}</p>
+                                    <p style="color: #00407d;" class="w3-small">{{current_user.role}}</p>
+                                    <p style="color: #00407d;" class="w3-small">{{current_user.department}}</p>
+                                </div>
+                        
+                                <!-- Profile Details -->
+                                <div class="profile-details w3-third">
+                                    <h3>Profile Details</h3>
+                                    <label class="w3-left" for="username">Username</label>
+                                    <input type="text" id="username" value="{{current_user.username}}" readonly>
+                        
+                                    <label class="w3-left" for="email">Email</label>
+                                    <input type="email" id="email" value="{{current_user.email}}" readonly>
+                        
+                                    <label class="w3-left" for="role">Role</label>
+                                    <input type="text" id="role" value="{{current_user.role}}" readonly>
+                        
+                                    <label class="w3-left" for="department">Department</label>
+                                    <input type="text" id="department" value="{{current_user.department}}" readonly>
+                                </div>
+
+                                <div class="w3-bar w3-border">
+                                    <a href="#" class="w3-bar-item w3-button">
+                                        <!-- Edit Button -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-feather" viewBox="0 0 16 16">
+                                                <path d="M15.807.531c-.174-.177-.41-.289-.64-.363a3.8 3.8 0 0 0-.833-.15c-.62-.049-1.394 0-2.252.175C10.365.545 8.264 1.415 6.315 3.1S3.147 6.824 2.557 8.523c-.294.847-.44 1.634-.429 2.268.005.316.05.62.154.88q.025.061.056.122A68 68 0 0 0 .08 15.198a.53.53 0 0 0 .157.72.504.504 0 0 0 .705-.16 68 68 0 0 1 2.158-3.26c.285.141.616.195.958.182.513-.02 1.098-.188 1.723-.49 1.25-.605 2.744-1.787 4.303-3.642l1.518-1.55a.53.53 0 0 0 0-.739l-.729-.744 1.311.209a.5.5 0 0 0 .443-.15l.663-.684c.663-.68 1.292-1.325 1.763-1.892.314-.378.585-.752.754-1.107.163-.345.278-.773.112-1.188a.5.5 0 0 0-.112-.172M3.733 11.62C5.385 9.374 7.24 7.215 9.309 5.394l1.21 1.234-1.171 1.196-.027.03c-1.5 1.789-2.891 2.867-3.977 3.393-.544.263-.99.378-1.324.39a1.3 1.3 0 0 1-.287-.018Zm6.769-7.22c1.31-1.028 2.7-1.914 4.172-2.6a7 7 0 0 1-.4.523c-.442.533-1.028 1.134-1.681 1.804l-.51.524zm3.346-3.357C9.594 3.147 6.045 6.8 3.149 10.678c.007-.464.121-1.086.37-1.806.533-1.535 1.65-3.415 3.455-4.976 1.807-1.561 3.746-2.36 5.31-2.68a8 8 0 0 1 1.564-.173"/>
+                                            </svg>
+                                            <span class="w3-small">Edit Avatar</span>
+                                    </a>
+                                    <a href="#" class="w3-bar-item w3-button">
+                                        <!-- Logout Button -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-power" viewBox="0 0 16 16" style="margin-right: 0.5rem;">
+                                                <path d="M7.5 1v7h1V1z"/>
+                                                <path d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"/>
+                                            </svg>
+                                            <span class="w3-small">Log Out</span>
+                                    </a>
+                                </div>
+
+                                
+                        
+                                
+                            </div>
+                            <!-- <table style="padding:128px 16px">
+                                <tr valign="top">
+                                    <td><img src="{{ user.avatar(128) }}"></td>
+                                    <td>
+                                        <h1>User: {{ user.username }}</h1>
+                                        {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+                                        {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}
+                                        {% if user == current_user %}
+                                        <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table> -->
+                        </div>
+                        <div class="tab-pane" id="tab4">This is the content of Tab 4.</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+    
+            
+            <!-- <div class="w3-bar w3-border">
+                <a href="#" class="w3-bar-item w3-button">Home</a>
+                <a href="#" class="w3-bar-item w3-button w3-light-grey">Portfolio</a>
+                <a href="#" class="w3-bar-item w3-button">Contact</a>
+                <a href="#" class="w3-bar-item w3-button w3-hide-small">Weddings</a>
+            </div> -->
+    
+        </div>
+
+{% endblock %}

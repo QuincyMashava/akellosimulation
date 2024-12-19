@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+    <div class="" style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+        <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto;">
+            <div class="tabs">
+                <button class="tab-button w3-small active" data-tab="tab1">
+                    <span class="{% if title != 'School Tracker' %}w3-text-black {%endif%}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
+                            <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+                            <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+                          </svg>
+                        School Tracker
+                    </span>
+                </button>
+                <button class="tab-button w3-small" data-tab="tab2">
+                    <span class="{% if title != 'Installation Schedule' %}w3-text-black {%endif%}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stopwatch" viewBox="0 0 16 16">
+                            <path d="M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5z"/>
+                            <path d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64l.012-.013.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5M8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3"/>
+                        </svg>
+                        Installation Schedule
+                    </span>
+                </button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+
+                        <div class="w3-bar w3-border w3-right" style="width: fit-content;">
+                            <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('add_school').style.display='block'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
+                                    <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+                                    <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+                                </svg>
+                                <span class="w3-small">Add School</span>
+                            </a>
+                            
+                        </div>
+
+
+                    <br>
+
+                    <table id="school_tracker" class="w3-small">
+                        <thead>
+                            <tr>
+                                <th>School</th>
+                                <th>Province</th>
+                                <th>Distrcit</th>
+                                <th>Computers</th>
+                                <th>Internet</th>
+                                <th>Lab</th>
+                                <th>Installed</th>
+                                <th>Scheduled Visit</th>
+                                <th>Installation date</th>
+                                <th>
+                                    <select class="w3-select" id="tech_ready_filter" >
+                                        <option value=""><b>Tech Ready</b></option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for school in all_schools %}
+                                <tr>
+                                    <td>{{ school.schoolname }}</td>
+                                    <td>{{school.province}}</td>
+                                    <td>{{school.district}}</td>
+                                    <td>{{school.computers}}</td>
+                                    <td>{{school.internet}}</td>
+                                    <td>{{school.lab}}</td>
+                                    <td>{{school.installed}}</td>
+                                    <td>{{school.scheduled_visit}}</td>
+                                    <td>{{school.installation_date}}</td>
+                                    <td>{{school.tech_ready}}</td>
+                                    <td>
+                                        <span class="w3-large" data-toggle="tooltip" title="View" style="cursor: pointer;" onclick="document.getElementById('view_school_{{school.id}}').style.display='block'">↗</span>
+                                    </td>
+                                </tr>
+
+                                <!-- View school modal -->
+                                <div id="view_school_{{school.id}}" class="w3-modal w3-white">
+                                    <div class="w3-modal-content w3-card-4" style="height: 55vh; overflow: auto;">
+                                        <header class="w3-container" style="background-color: #00407d;"> 
+                                            <span onclick="document.getElementById('view_school_{{school.id}}').style.display='none'" 
+                                            class="w3-button w3-display-topright w3-text-white">&times;</span>
+                                            <h2 class="w3-text-white w3-large">{{school.schoolname}}</h2>
+                                            <p class="w3-small w3-text-white">{{school.school_contact}}</p>
+                                        </header>
+                                        <div class="w3-container">
+                                            <br>
+                                            <div class="w3-bar w3-border">
+                                                <a href="#" class="w3-bar-item w3-button">{{school.province}} province</a>
+                                                <a href="#" class="w3-bar-item w3-button">{{school.district}} district</a>
+                                                <a href="#" class="w3-bar-item w3-button">{{school.computers}} computers</a>
+                                                <a href="#" class="w3-bar-item w3-button">Lab ? {{school.lab}}</a>
+                                            </div>
+                                            <div class="w3-bar w3-card">
+                                                <a href="#" class="w3-bar-item w3-button"><b>Currently installed platforms:</b> {{school.installed}}</a>
+                                                <a href="#" class="w3-bar-item w3-button"><b>Scheduled visits:</b> {{school.scheduled_visit}}</a>
+                                                <a href="#" class="w3-bar-item w3-button"><b>Installation date:</b> {{school.installation_date}}</a>
+                                                <a href="#" class="w3-bar-item w3-button"><b>Is the school Tech ready:</b> {{school.tech_ready}}</a>
+                                            </div>
+                                            <div class="w3-bar w3-right w3-quarter" style="width: fit-content;">
+                                                <a href="#" class="w3-bar-item w3-button w3-card w3-margin zoom" onclick="document.getElementById('add_school').style.display='block'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
+                                                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+                                                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+                                                    </svg>
+                                                    <span class="w3-small">Edit</span>
+                                                </a>
+                                                <a href="#" style="color: red;" class="w3-bar-item w3-button w3-card w3-margin zoom" onclick="document.getElementById('delete_school_{{school.id}}').style.display='block'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                                    </svg>
+                                                    <span class="w3-small">Delete school</span>
+                                                </a>
+                                                
+                                            </div>
+                                            <!-- <div class="w3-left w3-twothird">
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Province:</b> {{school.province}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>District:</b> {{school.district}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Computers:</b> {{school.computers}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Laboratory:</b> {{school.lab}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Currently installed platforms:</b> {{school.installed}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Scheduled visits:</b> {{school.scheduled_visit}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Installation date:</b> {{school.installation_date}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Is the school Tech ready:</b> {{school.tech_ready}}</span>
+                                                </p>
+                                            </div> -->
+                                        </div>
+                                        <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+                                            <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+                                        </footer> -->
+                                    </div>
+
+                                    <!-- Delete school modal -->
+                                <div id="delete_school_{{school.id}}" class="w3-modal w3-white">
+                                    <div class="w3-modal-content w3-card-4" style="height: 55vh; overflow: auto;">
+                                        <header class="w3-container" style="background-color: red;"> 
+                                            <span onclick="document.getElementById('delete_school_{{school.id}}').style.display='none'" 
+                                            class="w3-button w3-display-topright w3-text-white">&times;</span>
+                                            <h2 class="w3-text-white w3-large">Do you want to delete this school? </h2>
+                                            <p class="w3-small w3-text-white">{{school.schoolname}}</p>
+                                        </header>
+                                        <div class="w3-container">
+                                            <div class="w3-bar w3-border w3-right w3-card w3-margin zoom" style="width: fit-content;">
+                                                <a href="{{ url_for('archive_school', id=school.id) }}" class="w3-bar-item w3-button">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                                    </svg>
+                                                    Delete
+                                                </a>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                        <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+                                            <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+                                        </footer> -->
+                                    </div>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+                
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <table id="school_tracker" class="w3-small">
+                        <thead>
+                            <tr>
+                                <th>School</th>
+                                <th>Province</th>
+                                <th>Distrcit</th>
+                                <th>Computers</th>
+                                <th>Internet</th>
+                                <th>Lab</th>
+                                <th>Installed</th>
+                                <th>Scheduled Visit</th>
+                                <th>Installation date</th>
+                                <th>
+                                    <select class="w3-select" id="tech_ready_filter" >
+                                        <option value=""><b>Tech Ready</b></option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for school in all_schools_scheduled %}
+                                <tr>
+                                    <td>{{ school.schoolname }}</td>
+                                    <td>{{school.province}}</td>
+                                    <td>{{school.district}}</td>
+                                    <td>{{school.computers}}</td>
+                                    <td>{{school.internet}}</td>
+                                    <td>{{school.lab}}</td>
+                                    <td>{{school.installed}}</td>
+                                    <td>{{school.scheduled_visit}}</td>
+                                    <td>{{school.installation_date}}</td>
+                                    <td>{{school.tech_ready}}</td>
+                                    <td>
+                                        <span class="w3-large" data-toggle="tooltip" title="View" style="cursor: pointer;" onclick="document.getElementById('view_school_{{school.id}}').style.display='block'">↗</span>
+                                    </td>
+                                </tr>
+
+                                <!-- View school modal -->
+                                <div id="view_school_{{school.id}}" class="w3-modal w3-white">
+                                    <div class="w3-modal-content w3-card-4" style="height: 55vh; overflow: auto;">
+                                        <header class="w3-container" style="background-color: #00407d;"> 
+                                            <span onclick="document.getElementById('view_school_{{school.id}}').style.display='none'" 
+                                            class="w3-button w3-display-topright w3-text-white">&times;</span>
+                                            <h2 class="w3-text-white w3-large">{{school.schoolname}}</h2>
+                                            <p class="w3-small w3-text-white">{{school.school_contact}}</p>
+                                        </header>
+                                        <div class="w3-container">
+                                            <br>
+                                            <div class="w3-bar w3-border">
+                                                <a href="#" class="w3-bar-item w3-button">{{school.province}} province</a>
+                                                <a href="#" class="w3-bar-item w3-button">{{school.district}} district</a>
+                                                <a href="#" class="w3-bar-item w3-button">{{school.computers}} computers</a>
+                                                <a href="#" class="w3-bar-item w3-button">Lab ? {{school.lab}}</a>
+                                            </div>
+                                            <div class="w3-bar w3-card">
+                                                <a href="#" class="w3-bar-item w3-button"><b>Currently installed platforms:</b> {{school.installed}}</a>
+                                                <a href="#" class="w3-bar-item w3-button"><b>Scheduled visits:</b> {{school.scheduled_visit}}</a>
+                                                <a href="#" class="w3-bar-item w3-button"><b>Installation date:</b> {{school.installation_date}}</a>
+                                                <a href="#" class="w3-bar-item w3-button"><b>Is the school Tech ready:</b> {{school.tech_ready}}</a>
+                                            </div>
+                                            <div class="w3-bar w3-right w3-quarter" style="width: fit-content;">
+                                                <a href="#" class="w3-bar-item w3-button w3-card w3-margin zoom" onclick="document.getElementById('add_school').style.display='block'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
+                                                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+                                                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+                                                    </svg>
+                                                    <span class="w3-small">Edit</span>
+                                                </a>
+                                                <a href="#" style="color: red;" class="w3-bar-item w3-button w3-card w3-margin zoom" onclick="document.getElementById('delete_school_{{school.id}}').style.display='block'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                                    </svg>
+                                                    <span class="w3-small">Delete</span>
+                                                </a>
+                                                
+                                            </div>
+                                            <!-- <div class="w3-left w3-twothird">
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Province:</b> {{school.province}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>District:</b> {{school.district}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Computers:</b> {{school.computers}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Laboratory:</b> {{school.lab}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Currently installed platforms:</b> {{school.installed}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Scheduled visits:</b> {{school.scheduled_visit}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Installation date:</b> {{school.installation_date}}</span>
+                                                </p>
+                                                <p class="w3-left w3-margin">
+                                                    <span><b>Is the school Tech ready:</b> {{school.tech_ready}}</span>
+                                                </p>
+                                            </div> -->
+                                        </div>
+                                        <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+                                            <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+                                        </footer> -->
+                                    </div>
+
+                                    <!-- Delete school modal -->
+                                <div id="delete_school_{{school.id}}" class="w3-modal w3-white">
+                                    <div class="w3-modal-content w3-card-4" style="height: 55vh; overflow: auto;">
+                                        <header class="w3-container" style="background-color: red;"> 
+                                            <span onclick="document.getElementById('delete_school_{{school.id}}').style.display='none'" 
+                                            class="w3-button w3-display-topright w3-text-white">&times;</span>
+                                            <h2 class="w3-text-white w3-large">Do you want to delete this school? </h2>
+                                            <p class="w3-small w3-text-white">{{school.schoolname}}</p>
+                                        </header>
+                                        <div class="w3-container">
+                                            <div class="w3-bar w3-border w3-right w3-card w3-margin zoom" style="width: fit-content;">
+                                                <a href="{{ url_for('archive_school', id=school.id) }}" class="w3-bar-item w3-button">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                                    </svg>
+                                                    Delete
+                                                </a>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                        <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+                                            <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+                                        </footer> -->
+                                    </div>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- Add school modal -->
+    <div id="add_school" class="w3-modal w3-white">
+        <div class="w3-modal-content w3-card-4" style="height: 75vh; overflow: auto;">
+            <header class="w3-container" style="background-color: #00407d;"> 
+                <span onclick="document.getElementById('add_school').style.display='none'" 
+                class="w3-button w3-display-topright w3-text-white">&times;</span>
+                <h2 class="w3-text-white w3-large">Add School</h2>
+                <p class="w3-small w3-text-white">Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+                <!-- Upload button -->
+                <p class="upload-container w3-white w3-right" style="display: flex;">
+                    <!-- <span><b style="color: #00407d;">Upload School Data </b></span> -->
+                    <form class="w3-margin w3-white w3-padding" action="/upload_school_data" method="POST" enctype="multipart/form-data">
+                        <input type="file" id="file-upload" name="file" accept=".csv, .xls, .xlsx">
+                        <!-- <label for="file-upload">Choose File</label> -->
+                        <!-- <br> -->
+                        <button type="submit" style="color: #024d86; text-decoration: none; border-left: 5px solid #00407d; border-radius: 20px 20px 20px 20px;", class=" w3-card w3-button w3-padding w3-white w3-small">Upload</button>
+                    </form>
+                    <!-- <p>Accepted file formats: .csv, .xls, .xlsx</p> -->
+                </p>
+                <!-- Upload button end -->
+            </header>
+            <div class="w3-container">
+                <form class="w3-padding" action="{{ url_for('addtoschooltracker') }}" method="post" style="color: #00407d;">
+                        {{ form.hidden_tag() }}
+                            <p>
+                                {{ form.csrf_token }}
+                                {{ form.schoolname.label(class="w3-small") }}<br>
+                                {{ form.schoolname(class="w3-input form-control ckeditor w3-small") }}<br>
+                            </p>
+                            <p>
+                                {{ form.province.label(class="w3-small") }}<br>
+                                {{ form.province(class="w3-select form-control") }}<br>
+                                {% for error in form.province.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.district.label(class="w3-small") }}<br>
+                                {{ form.district(class="w3-select form-control w3-small") }}<br>
+                                {% for error in form.district.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.computers.label(class="w3-small") }}<br>
+                                {{ form.computers(class="form-control w3-input w3-small") }}<br>
+                                {% for error in form.computers.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.internet.label(class="w3-small") }}<br>
+                                {{ form.internet(class="w3-select form-control w3-small") }}<br>
+                                {% for error in form.internet.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.lab.label(class="w3-small") }}<br>
+                                {{ form.lab(class="w3-select form-control w3-small") }}<br>
+                                {% for error in form.lab.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.installed.label(class="w3-small") }}<br>
+                                {{ form.installed(class="w3-select form-control w3-small") }}<br>
+                                {% for error in form.installed.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.scheduled_visit.label(class="w3-small") }}<br>
+                                {{ form.scheduled_visit(class="w3-select form-control w3-small") }}<br>
+                                {% for error in form.scheduled_visit.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.tech_ready.label(class="w3-small") }}<br>
+                                {{ form.tech_ready(class="w3-select form-control w3-small") }}<br>
+                                {% for error in form.tech_ready.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.installation_date.label(class="w3-small") }}<br>
+                                {{ form.installation_date(class="datepicker form-control") }}<br>
+                                {% for error in form.installation_date.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {{ form.school_contact.label(class="w3-small") }}<br>
+                                {{ form.school_contact(class="w3-input form-control w3-small") }}<br>
+                                {% for error in form.school_contact.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+
+                            
+                        <p class="w3-center">{{ form.submit(style="color: #024d86; text-decoration: none; border-left: 5px solid #00407d; border-radius: 20px 20px 20px 20px;", class=" w3-card w3-button w3-padding w3-small") }}</p>
+
+                </form>
+            </div>
+            <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+                <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+            </footer> -->
+        </div>
+
+</div>
+
+<script>
+    document.getElementById("tech_ready_filter").addEventListener("change", function() {
+        var value = this.value.toLowerCase();
+        var rows = document.getElementById("school_tracker").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        for (var i = 0; i < rows.length; i++) {
+            var gender = rows[i].getElementsByTagName("td")[9];
+            if (value === "" || gender.textContent.toLowerCase() === value) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    });
+</script>
+
+{% endblock %}

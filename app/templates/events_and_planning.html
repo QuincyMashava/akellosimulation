@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+    <div class="" style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+        <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto;">
+            <div class="tabs">
+                <button class="tab-button w3-small active" data-tab="tab1">Events this month</button>
+                <button class="tab-button w3-small" data-tab="tab2">All events</button>
+                <button class="tab-button w3-small" data-tab="tab3">How it works</button>
+                <button class="tab-button w3-small" data-tab="tab4">Notifications</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <div class="w3-bar w3-border w3-left zoom" style="width: fit-content;">
+                        <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('add_school').style.display='block'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-event" viewBox="0 0 16 16">
+                                <path d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+                                <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5z"/>
+                              </svg>
+                            Craete event
+                        </a>
+                        
+                    </div>
+                    This is the content of Tab 1.
+                </div>
+                <div class="tab-pane" id="tab2">This is the content of Tab 2.</div>
+                <div class="tab-pane" id="tab3">This is the content of Tab 3.</div>
+                <div class="tab-pane" id="tab4">This is the content of Tab 4.</div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    
+    <!-- <div class="w3-bar w3-border">
+        <a href="#" class="w3-bar-item w3-button">Home</a>
+        <a href="#" class="w3-bar-item w3-button w3-light-grey">Portfolio</a>
+        <a href="#" class="w3-bar-item w3-button">Contact</a>
+        <a href="#" class="w3-bar-item w3-button w3-hide-small">Weddings</a>
+    </div> -->
+
+</div>
+
+{% endblock %}

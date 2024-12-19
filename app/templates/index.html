@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="background-container">
+    <div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+        <div style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+            <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto; ">
+                <div class="tabs">
+                    <button class="tab-button w3-small active" data-tab="tab1">Ongoing activity</button>
+                    <button class="tab-button w3-small" data-tab="tab2">Summary</button>
+                    <button class="tab-button w3-small" data-tab="tab3">Notifications</button>
+                    <button class="tab-button w3-small" data-tab="tab4">{{ username }}</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab1">
+                        <div class="w3-center">
+                            <!-- <span class="w3-small w3-left w3-border w3-padding w3-card">Upcoming events</span>
+                            <br class="w3-margin">
+                            <div class="w3-container w3-margin w3-full w3-small">
+                                <div class="w3-quarter" style="margin: 5px; width: auto;">
+                                    <div class="w3-third w3-border w3-card w3-padding" style="border-radius: 50%;">
+                                        <span><strong>15</strong></span><br>
+                                        <span><strong>Dec</strong></span>
+                                    </div>
+                                    <div class="w3-twothird w3-padding " style="">
+                                        <span class="w3-left"><strong>Team Building</strong></span>
+                                    </div>
+                                </div>
+
+                                <div class="w3-quarter" style="margin: 5px; width: auto;">
+                                    <div class="w3-third w3-border w3-card w3-padding" style="border-radius: 50%;">
+                                        <span><strong>15</strong></span><br>
+                                        <span><strong>Dec</strong></span>
+                                    </div>
+                                    <div class="w3-twothird w3-padding " style="">
+                                        <span class="w3-left"><strong>Team Building</strong></span>
+                                    </div>
+                                </div>
+
+                                <div class="w3-quarter" style="margin: 3px; width: auto;">
+                                    <div class="w3-third w3-border w3-card w3-padding" style="border-radius: 50%;">
+                                        <span><strong>15</strong></span><br>
+                                        <span><strong>Dec</strong></span>
+                                    </div>
+                                    <div class="w3-twothird w3-padding " style="">
+                                        <span class="w3-left"><strong>Team Building</strong></span>
+                                    </div>
+                                </div>
+
+                                <div class="w3-quarter" style="margin: 3px; width: auto;">
+                                    <div class="w3-third w3-border w3-card w3-padding" style="border-radius: 50%;">
+                                        <span><strong>15</strong></span><br>
+                                        <span><strong>Dec</strong></span>
+                                    </div>
+                                    <div class="w3-twothird w3-padding " style="">
+                                        <span class="w3-left"><strong>Team Building</strong></span>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <br class="w3-margin"> -->
+                            <!-- <input style="width: 50%;" class="form-control w3-border w3-bar w3-input w3-form w3-small w3-margin-top w3-margin-bottom" id="myInput" type="text" placeholder="Filter ongoing activity using search .."> -->
+                            <span class="w3-small w3-left w3-border w3-padding">Ongoing tasks</span>
+                            <br class="w3-margin">
+                            <table class="w3-small">
+                                <thead>
+                                    <tr>
+                                        <th>Task Name</th>
+                                        <th>Description</th>
+                                        <th>Progress</th>
+                                        <th>Status</th>
+                                        <th>Priority</th>
+                                        <th>Activity</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for task in your_tasks %}
+                                        <tr>
+                                            <td>{{ task.taskname }}</td>
+                                            <td>{{ task.description }}</td>
+                                            <td>{{ task.progress }} %</td>
+                                            <td>{{ task.status }}</td>
+                                            <td>{{ task.priority }}</td>
+                                            <td>{{ task.category }}</td>
+                                            <td>Actions</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">Summary content here.</div>
+                    <div class="tab-pane" id="tab3">
+                        <div class="w3-center">
+                            <input style="width: 50%;" class="form-control w3-border w3-bar w3-input w3-form w3-small w3-margin-top w3-margin-bottom" id="myInput" type="text" placeholder="Filter ongoing activity using search ..">
+                            <br>
+                            <table class="w3-small">
+                                <thead>
+                                    <tr>
+                                        <th>Notification</th>
+                                        <th>From</th>
+                                        <th>
+                                            <select id="filter_status" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                                <option value=""><b>Category</b></option>
+                                                <option value="Contracting">Contracting</option>
+                                                <option value="Tasks">Tasks</option>
+                                                <option value="Reports">Reports</option>
+                                                <option value="Installations">Installations</option>
+                                                <option value="Events">Events</option>
+                                                <option value="Queries">Queries</option>
+                                            </select>
+                                        </th>
+                                        <th>
+                                            <select id="filter_status" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                                <option value=""><b>Status</b></option>
+                                                <option value="Read">Read</option>
+                                                <option value="Unread">Unread</option>
+                                            </select>
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for alert in user_notifications %}
+                                        <tr>
+                                            <td>{{alert.message}}</td>
+                                            <td>{{ alert.sender }}</td>
+                                            <td>{{ alert.category }}</td>
+                                            <td>{{alert.read}}</td>
+                                            <td>Actions</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab4">Other content here.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Background styling */
+    /* .background-container {
+        background-image: url("{{ url_for('static', filename='images/Background.png') }}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        height: 100vh;
+        width: 100vw;
+    } */
+
+    /* Optional: Semi-transparent content background */
+    /* .w3-display-middle {
+        background-color: transparent;
+        border-radius: 10px;
+        padding: 15px;
+    } */
+
+    
+</style>
+
+{% endblock %}

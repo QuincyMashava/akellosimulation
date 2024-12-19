@@ -1,0 +1,352 @@
+/* Base styles */
+
+.progress-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Circular progress bar */
+.circular-progress {
+    width: 150px;
+    height: 150px;
+    background: conic-gradient(#4caf50 0deg, #d9d9d9 0deg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Value in the center */
+.circular-progress .progress-value {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .circular-progress {
+        width: 120px;
+        height: 120px;
+    }
+
+    .circular-progress .progress-value {
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .circular-progress {
+        width: 100px;
+        height: 100px;
+    }
+
+    .circular-progress .progress-value {
+        font-size: 1rem;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+    }
+
+    /* Tab view  */
+    /* Base styles */
+
+    .tabs-container {
+        width: 100%;
+        height: 80vh;
+        /* max-width: 600px; */
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    /* Tabs styling */
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .tab-button {
+        flex: 1;
+        padding: 10px 15px;
+        text-align: center;
+        background: #f9f9f9;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        font-size: 16px;
+        transition: background 0.3s ease;
+    }
+
+    .tab-button:hover {
+        background: #eaeaea;
+    }
+
+    .tab-button.active {
+        background: #00407d;
+        color: white;
+        font-weight: bold;
+    }
+
+    /* Tab content styling */
+    .tab-content {
+        padding: 15px;
+    }
+
+    .tab-pane {
+        display: none;
+    }
+
+    .tab-pane.active {
+        display: block;
+    }
+
+    @media screen and (max-width: 600px) {
+        .tab-button {
+            font-size: 14px;
+            padding: 8px;
+        }
+
+        .tab-content {
+            font-size: 14px;
+        }
+    }
+
+
+
+
+    /* First css */
+body,h1,h2,h3,h4 {color:#00407d; font-family: "Raleway", Arial, sans-serif}
+a{
+    text-decoration: none;
+}
+.active-link {
+    font-weight: bold;
+    color: #00407d !important;
+    /* background-color: teal; */
+    /* width: 100%; */
+    border-left: 8px solid #00407d;
+}
+.zoom {
+    transition: transform .4s;
+    /* margin: 0 auto; */
+    }
+
+    .zoom:hover {
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1); 
+    }
+
+    table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th, td {
+border: 1px solid #ddd;
+padding: 8px;
+}
+
+th {
+background-color: #f2f2f2;
+text-align: left;
+}
+
+td {
+text-align: left;
+}
+
+.action {
+text-align: center;
+}
+
+.dropdown {
+padding: 4px;
+border: 1px solid #ccc;
+border-radius: 4px;
+background-color: white;
+cursor: pointer;
+}
+
+
+/* Workspace form */
+/* Form container styling */
+.form-container {
+max-width: 600px;
+margin: 0 auto;
+background: #f9f9f9;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+font-family: 'Arial', sans-serif;
+}
+
+.form-group {
+margin-bottom: 15px;
+}
+
+label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+color: #333;
+}
+
+.form-control {
+width: 100%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 14px;
+box-sizing: border-box;
+}
+
+.form-control:focus {
+border-color: #007bff;
+box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+outline: none;
+}
+
+.select-multiple {
+max-height: 150px;
+}
+
+.btn {
+display: inline-block;
+padding: 10px 20px;
+font-size: 16px;
+color: #fff;
+background-color: #007bff;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+text-align: center;
+text-decoration: none;
+}
+
+.btn:hover {
+background-color: #0056b3;
+}
+
+.image-star-background
+{
+background-image: url("{{ url_for('static', filename='images/Background.png') }}");
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+}
+
+/* Below to delete */
+.profile-container {
+width: 100%;
+background-color: white;
+border-radius: 8px;
+/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+overflow: hidden;
+}
+
+.profile-header {
+/* background-color: #d9c3f7; */
+text-align: center;
+padding: 30px 20px;
+}
+
+.profile-header img {
+width: 150px;
+height: 150px;
+border-radius: 50%;
+margin-bottom: 15px;
+}
+
+.profile-header h2 {
+font-size: 20px;
+font-weight: bold;
+margin: 0;
+color: #333;
+}
+
+.profile-header p {
+margin: 5px 0;
+font-size: 14px;
+color: #555;
+}
+
+.profile-details {
+padding: 20px;
+}
+
+.profile-details h3 {
+font-size: 18px;
+font-weight: bold;
+margin-bottom: 15px;
+}
+
+.profile-details label {
+display: block;
+font-weight: bold;
+margin-bottom: 5px;
+font-size: 14px;
+}
+
+.profile-details input {
+width: 100%;
+padding: 10px;
+margin-bottom: 15px;
+border: 1px solid #ddd;
+border-radius: 4px;
+background-color: #f5f5f5;
+}
+
+.logout-btn {
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: white;
+color: #d9534f;
+border: 1px solid #d9534f;
+padding: 10px 15px;
+font-size: 16px;
+font-weight: bold;
+text-decoration: none;
+border-radius: 4px;
+cursor: pointer;
+margin: 20px auto;
+width: fit-content;
+transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-btn svg {
+margin-right: 5px;
+}
+
+.logout-btn:hover {
+background-color: #d9534f;
+color: white;
+}

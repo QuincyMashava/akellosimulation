@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="background-container">
+    <div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+        <div style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+            <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto; ">
+                <div class="tabs">
+                    <button class="tab-button w3-small active" data-tab="tab1">{{current_user.department}}</button>
+                    <button class="tab-button w3-small" data-tab="tab2">Other departments</button>
+                    <button class="tab-button w3-small" data-tab="tab3">Team Notifications</button>
+                    <!-- <button class="tab-button w3-small" data-tab="tab4"></button> -->
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab1">
+                        <div class="w3-center">
+                            <input style="width: 50%;" class="form-control w3-border w3-bar w3-input w3-form w3-small w3-margin-top w3-margin-bottom" id="myInput" type="text" placeholder="Filter ongoing activity using search ..">
+                            <br>
+                            {% for member in team %}
+                                <div class="w3-border w3-quarter w3-margin w3-padding zoom" style=" cursor: pointer;">
+                                    <span><strong>{{member.username}}</strong></span>
+                                    <br>
+                                    <span class="w3-small">{{member.role}}</span>
+                                    <br>
+                                    <span class="w3-small">{{member.email}}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">Summary content here.</div>
+                    <div class="tab-pane" id="tab3">Notifications content here.</div>
+                    <!-- <div class="tab-pane" id="tab4">Other content here.</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

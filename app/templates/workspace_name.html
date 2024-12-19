@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+    <div class="" style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+        <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto;">
+            <div class="tabs">
+                <button class="tab-button w3-small active" data-tab="tab1">How it works</button>
+                <button class="tab-button w3-small" data-tab="tab2">Tasks in {{ current_workspace.name }}</button>
+                <button class="tab-button w3-small" data-tab="tab3">Documents</button>
+                <button class="tab-button w3-small" data-tab="tab4">Members of Workspace</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <p class="w3-border w3-padding w3-margin">Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, quia voluptatem vero natus perferendis doloribus similique perspiciatis unde ut numquam voluptatibus id magnam blanditiis sapiente officia illum autem error cupiditate!</p>
+                </div>
+                <div class="tab-pane" id="tab2">This is the content of Tab 2.</div>
+                <div class="tab-pane" id="tab3">This is the content of Tab 3.</div>
+                <div class="tab-pane" id="tab4">This is the content of Tab 4.</div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+</div>
+
+{% endblock %}

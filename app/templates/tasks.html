@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+    <!-- Header -->
+    <span class="w3-panel w3-padding" >
+        <span class="w3-border w3-right" style="width: fit-content;">
+            <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('add_task').style.display='block'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-patch-plus" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5"/>
+                    <path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911z"/>
+                  </svg>
+                <span class="w3-small">Add New Task</span>
+            </a>
+            
+        </span>
+    </span>
+    <div class="" style="width: 76vw;  margin-left: 3%; height: 64vh;">
+        <div class="w3-bar w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto;">
+            <div class="tabs">
+                <button class="tab-button w3-small active" data-tab="tab1">Assigned to you</button>
+                <button class="tab-button w3-small" data-tab="tab2">Department Tasks</button>
+                <button class="tab-button w3-small" data-tab="tab3">Tasks created by you</button>
+                <button class="tab-button w3-small" data-tab="tab4">Archived</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <input style="width: 50%;" class="form-control w3-border w3-bar w3-input w3-form w3-small w3-margin-bottom" id="myTasksInput" type="text" placeholder="Filter using search ..">
+                <br>
+                    <table id="YourTasksTable" class="w3-small">
+                        <thead>
+                            <tr>
+                                <th>Task Name</th>
+                                <th>Descrption</th>
+                                <th>Progress</th>
+                                <th>
+                                    <select id="filter_status" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Status</b></option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Rejected">Archived</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filter_priority" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Priority</b></option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Urgent">Urgent</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filter_activity" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Category</b></option>
+                                        <option value="department">Department</option>
+                                        <option value="individual">Individual</option>
+                                    </select>
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead id="assignedToYou">
+                        <tbody class="w3-small">
+                            {% for tasks in your_tasks %}
+                                <tr>
+                                    <td>{{tasks.taskname}}</td>
+                                    <td>{{tasks.description}}</td>
+                                    <td>{{tasks.progress}} %</td>
+                                    <td>{{tasks.status}}</td>
+                                    <td>{{tasks.priority}}</td>
+                                    <td>{{tasks.category}}</td>
+                                    <td>
+                                        <span data-toggle="tooltip" title="View more" style="cursor: pointer;" onclick="document.getElementById('view_task_{{tasks.id}}').style.display='block'" >↗</span>
+                                        
+                                    </td>
+                                </tr>
+
+                                <!-- Add task modal -->
+                                <div id="view_task_{{tasks.id}}" class="w3-modal w3-white">
+                                    <div class="w3-modal-content w3-card-4" style="width: 70vw; height: 65vh; overflow: auto;">
+                                        <header class="w3-container" style="background-color: #00407d;"> 
+                                            <span onclick="document.getElementById('view_task_{{tasks.id}}').style.display='none'" 
+                                            class="w3-button w3-display-topright w3-text-white">&times;</span>
+                                            <h2 class="w3-text-white w3-large">{{tasks.taskname}}</h2>
+                                            <p class="w3-small w3-text-white">Created on {{tasks.timestamp}}</p>
+                                        </header>
+                                        <div class="w3-container">
+
+                                            <div class="w3-bar w3-margin-top w3-left w3-padding tabs-container" style="width: 65vw; height: fit-content; overflow-y: auto;">
+                                                <span class="w3-small">
+                                                    <span class="w3-border w3-margin w3-padding" data-toggle="tooltip" title="Save changes" tooltip="Save" style="cursor: pointer;" >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16">
+                                                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z"/>
+                                                          </svg>
+                                                        Save changes
+                                                    </span>
+                                                    <a href="{{ url_for('delete_task', id=tasks.id) }}" class="w3-border w3-margin w3-padding" data-toggle="tooltip" title="Delete" tooltip="delete" style="cursor: pointer;" >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                                        </svg>
+                                                        Delete
+                                                    </a>
+                                                </span>
+                                                <p>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                                      </svg>
+                                                    {{tasks.description}}
+                                                </p>
+                                                <p >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                                        <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                                        <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                                                      </svg>
+                                                      Category type - {{tasks.category}}
+                                                </p>
+                                                <p>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
+                                                        <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z"/>
+                                                        <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"/>
+                                                        <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/>
+                                                      </svg>
+                                                    Progress @{{tasks.progress}} %
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+                                            <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+                                        </footer> -->
+                                    </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <input style="width: 50%;" class="form-control w3-border w3-bar w3-input w3-form w3-small w3-margin-bottom" id="deptTasksInput" type="text" placeholder="Filter using search ..">
+                <br>
+                    <table id="DeptTasksTable" class="w3-small">
+                        <thead>
+                            <tr>
+                                <th class="w3-small">Task Name</th>
+                                <th class="w3-small">Descrption</th>
+                                <th class="w3-small">Progress</th>
+                                <th>
+                                    <select id="dept_status" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Status</b></option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Rejected">Archived</option>
+                                    </select>
+                                </th>
+                                <th class="w3-small">Priority</th>
+                                <th>
+                                    <select id="dept_category" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Category</b></option>
+                                        <option value="department">Department</option>
+                                        <option value="individual">Individual</option>
+                                    </select>
+                                </th>
+                                <th class="w3-small">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            {% for tasks in your_department_tasks %}
+                                <tr>
+                                    <td>{{tasks.taskname}}</td>
+                                    <td>{{tasks.description}}</td>
+                                    <td>{{tasks.progress}} %</td>
+                                    <td>{{tasks.status}}</td>
+                                    <td>{{tasks.priority}}</td>
+                                    <td>{{tasks.category}}</td>
+                                    <td>
+                                        <span data-toggle="tooltip" title="View" style="cursor: pointer;" >↗</span>
+                                        <span data-toggle="tooltip" title="Delete" tooltip="delete" style="cursor: pointer;" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                            </svg>
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="tab3">
+                    <input style="width: 50%;" class="form-control w3-border w3-bar w3-input w3-form w3-small w3-margin-bottom" id="myInput" type="text" placeholder="Filter using search ..">
+                <br>
+                    <table class="w3-small">
+                        <thead>
+                            <tr>
+                                <th class="w3-small">Task Name</th>
+                                <th class="w3-small">Descrption</th>
+                                <th class="w3-small">Progress</th>
+                                <th>
+                                    <select id="filter_status" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Status</b></option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Rejected">Archived</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filter_priority" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Priority</b></option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Urgent">Urgent</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filter_activity" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Category</b></option>
+                                        <option value="department">Department</option>
+                                        <option value="individual">Individual</option>
+                                    </select>
+                                </th>
+                                <th class="w3-small">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tasks in tasks_you_created %}
+                                <tr>
+                                    <td>{{tasks.taskname}}</td>
+                                    <td>{{tasks.description}}</td>
+                                    <td>{{tasks.progress}} %</td>
+                                    <td>{{tasks.status}}</td>
+                                    <td>{{tasks.priority}}</td>
+                                    <td>{{tasks.category}}</td>
+                                    <td>
+                                        <span data-toggle="tooltip" title="View" style="cursor: pointer;" >↗</span>
+                                        <span data-toggle="tooltip" title="Delete" tooltip="delete" style="cursor: pointer;" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                            </svg>
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="tab4">
+                    <input style="width: 50%;" class="form-control w3-border w3-bar w3-input w3-form w3-small w3-margin-bottom" id="deptTasksInput" type="text" placeholder="Filter using search ..">
+                <br>
+                    <table id="DeptTasksTable" class="w3-small">
+                        <thead>
+                            <tr>
+                                <th class="w3-small">Task Name</th>
+                                <th class="w3-small">Descrption</th>
+                                <th class="w3-small">Progress</th>
+                                <th>
+                                    <select id="dept_status" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Status</b></option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Rejected">Archived</option>
+                                    </select>
+                                </th>
+                                <th class="w3-small">Priority</th>
+                                <th>
+                                    <select id="dept_category" class="form-control w3-small" style="width: fit-content; color: #00407d;">
+                                        <option value=""><b>Category</b></option>
+                                        <option value="department">Department</option>
+                                        <option value="individual">Individual</option>
+                                    </select>
+                                </th>
+                                <th class="w3-small">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            {% for tasks in archived_tasks %}
+                                <tr>
+                                    <td>{{tasks.taskname}}</td>
+                                    <td>{{tasks.description}}</td>
+                                    <td>{{tasks.progress}} %</td>
+                                    <td>{{tasks.status}}</td>
+                                    <td>{{tasks.priority}}</td>
+                                    <td>{{tasks.category}}</td>
+                                    <td>
+                                        <span data-toggle="tooltip" title="View" style="cursor: pointer;" >↗</span>
+                                        <span data-toggle="tooltip" title="Delete" tooltip="delete" style="cursor: pointer;" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                            </svg>
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    
+    <!-- <div class="w3-bar w3-border">
+        <a href="#" class="w3-bar-item w3-button">Home</a>
+        <a href="#" class="w3-bar-item w3-button w3-light-grey">Portfolio</a>
+        <a href="#" class="w3-bar-item w3-button">Contact</a>
+        <a href="#" class="w3-bar-item w3-button w3-hide-small">Weddings</a>
+    </div> -->
+
+    
+
+</div>
+<!-- Add task modal -->
+<div id="add_task" class="w3-modal w3-white">
+    <div class="w3-modal-content w3-card-4" style="width: 75vw; height: 80vh; overflow: auto;">
+        <header class="w3-container" style="background-color: #00407d;"> 
+            <span onclick="document.getElementById('add_task').style.display='none'" 
+            class="w3-button w3-display-topright w3-text-white">&times;</span>
+            <h2 class="w3-text-white w3-large">Create new task</h2>
+            <p class="w3-small w3-text-white">Assign to department or an individual, they will receive a notificition.</p>
+        </header>
+        <div class="w3-container">
+
+            <div class="w3-bar w3-margin-top w3-center tabs-container w3-border" style="width: 70vw; height: 65vh; overflow-y: auto;">
+                <div class="tabs">
+                    <button class="tab-button w3-small active" data-tab="person">Assigned to Individual</button>
+                    <button class="tab-button w3-small" data-tab="people">How it works</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="person">
+                        <!-- <div class="w3-bar w3-border w3-right w3-card w3-margin zoom" style="width: fit-content;">
+                            <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('add_school').style.display='block'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-patch-plus" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5"/>
+                                    <path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911z"/>
+                                  </svg>
+                                Add Task
+                            </a>
+                            
+                        </div> -->
+                        <form class="w3-padding" action="{{ url_for('new_task') }}" method="post" style="color: #00407d;">
+                                {{ form.hidden_tag() }}
+                                    <p class="w3-third w3-padding">
+                                        {{ form.csrf_token }}
+                                        <label class="w3-left w3-small">Assign task to: </label><br>
+                                        <select class="w3-select form-control w3-small" id="assigned_to" name="assigned_to">
+                                            <option class="w3-input form-control ckeditor w3-small">Nobody</option>
+                                            {% for username in user_choices  %}
+                                                <option class="w3-input form-control ckeditor w3-small">{{ username }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </p>
+                                    <p class="w3-third w3-padding">
+                                        {{ form.department.label(class="w3-small w3-left") }}<br>
+                                        {{ form.department(class="w3-select form-control w3-small") }}<br>
+                                        {% for error in form.department.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+                                    <p class="w3-third w3-padding">
+                                        {{ form.priority.label(class="w3-small w3-left") }}<br>
+                                        {{ form.priority(class="w3-select form-control w3-small") }}<br>
+                                        {% for error in form.priority.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+
+                                    <p class="w3-third w3-padding">
+                                        {{ form.category.label(class="w3-small w3-left") }}<br>
+                                        {{ form.category(class="w3-select form-control w3-small") }}<br>
+                                        {% for error in form.category.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+
+
+                                    <p class="w3-third w3-padding">
+                                        {{ form.due_date.label(class="w3-small w3-left") }}<br>
+                                        {{ form.due_date(class="datepicker form-control w3-small") }}<br>
+                                        {% for error in form.due_date.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+
+                                    <p class="w3-third w3-padding">
+                                        {{ form.status.label(class="w3-small w3-left") }}<br>
+                                        {{ form.status(class="w3-select form-control w3-small") }}<br>
+                                        {% for error in form.status.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+                                    <p class="w3-third w3-padding">
+                                        {{ form.progress.label(class="w3-small w3-left") }}<br>
+                                        {{ form.progress(class="form-control w3-small") }}<br>
+                                        {% for error in form.progress.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+
+                                    <p class="w3-third w3-padding">
+                                        {{ form.taskname.label(class="w3-small w3-left") }}<br>
+                                        {{ form.taskname(class="w3-input form-control ckeditor w3-small", size=32) }}<br>
+                                        {% for error in form.taskname.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+                                    
+                                    <p class="w3-third w3-padding">
+                                        {{ form.description.label(class="w3-small w3-left") }}<br>
+                                        {{ form.description(class="w3-input form-control ckeditor w3-small") }}<br>
+                                        {% for error in form.description.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </p>
+
+                                <p class="w3-center">{{ form.submit(style="color: #024d86; text-decoration: none; border-left: 5px solid #00407d; border-radius: 20px 20px 20px 20px;", class=" w3-card w3-button w3-padding w3-small") }}</p>
+
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="people">This is the content of Tab 2.</div>
+                </div>
+            </div>
+        </div>
+        <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+            <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+        </footer> -->
+    </div>
+
+    <script>
+        $(document).ready(function(){
+          $("#myTasksInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#YourTasksTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+        $("#deptTasksInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#DeptTasksTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+        });
+    </script>
+
+    <script>
+        document.getElementById("dept_status").addEventListener("change", filterTable);
+        document.getElementById("dept_category").addEventListener("change", filterTable);
+
+        function filterTable() {
+            var statusValue = document.getElementById("dept_status").value.toLowerCase();
+            var priorityValue = document.getElementById("dept_category").value.toLowerCase();
+
+            var rows = document.getElementById("DeptTasksTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            for (var i = 0; i < rows.length; i++) {
+                var status = rows[i].getElementsByTagName("td")[3].textContent.toLowerCase();
+                var priority = rows[i].getElementsByTagName("td")[5].textContent.toLowerCase();
+
+                var statusMatch = statusValue === "" || status === statusValue;
+                var priorityMatch = priorityValue === "" || priority === priorityValue;
+
+                if (statusMatch && priorityMatch) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+{% endblock %}

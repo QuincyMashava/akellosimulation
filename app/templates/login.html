@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="w3-display-middle w3-card w3-mobile w3-padding" >
+        <!-- Sign In form -->
+         <div>
+            <h1>Sign In</h1>
+            <form class="" action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.username.label }}<br>
+                    {{ form.username(class="w3-input", size=32) }}<br>
+                    {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(class="w3-input",size=32) }}<br>
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                <p>{{ form.submit(class="w3-button w3-teal") }}</p>
+            </form>
+            <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+         </div>
+         <!-- Sign in form ends here -->
+    </div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+    <div class="" style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+        <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto;">
+            <div class="tabs">
+                <button class="tab-button w3-small active" data-tab="tab1">How it works</button>
+                <button class="tab-button w3-small" data-tab="tab2">Workspaces you are part of</button>
+                <button class="tab-button w3-small" data-tab="tab3">All Workspaces</button>
+                <button class="tab-button w3-small" data-tab="tab4">Notifications</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <!-- Header -->
+                    <span class="w3-panel w3-padding" >
+                        <span class="w3-border w3-card w3-left" style="width: fit-content;">
+                            <a href="#" class="w3-bar-item w3-button" onclick="document.getElementById('create_workspace').style.display='block'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios-grid" viewBox="0 0 16 16">
+                                    <path d="M3.5 15a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m0 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5M16 3.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-9 9a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m5.5 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m-9-11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m0 2a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                </svg>
+                                <span class="w3-small">Create</span>
+                            </a>
+                            
+                        </span>
+                    </span>
+                    This is the content of Tab 1.
+                </div>
+                <div class="tab-pane" id="tab2">This is the content of Tab 2.</div>
+                <div class="tab-pane" id="tab3">
+                    <!-- <h2>Existing Workspaces</h2> -->
+                    <ul style="list-style-type: none;">
+                        {% for workspace in workspaces %}
+                        <li class="w3-left w3-margin" style="cursor: pointer;">
+                            <a href="{{ url_for('workspacename', workspaceID=workspace.id) }}">
+                                <strong>{{ workspace.name }}</strong><br>
+                                <span class="w3-small">{{ workspace.description }}</span><br>
+                                <!-- <span class="w3-small">Members: {{ workspace.members | map(attribute='username') | join(', ') }}</span> -->
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+                <div class="tab-pane" id="tab4">This is the content of Tab 4.</div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+</div>
+
+<!-- create_workspace modal -->
+<div id="create_workspace" class="w3-modal w3-white">
+    <div class="w3-modal-content w3-card-4" style="width: 75vw; height: 80vh; overflow: auto;">
+        <header class="w3-container" style="background-color: #00407d;"> 
+            <span onclick="document.getElementById('create_workspace').style.display='none'" 
+            class="w3-button w3-display-topright w3-text-white">&times;</span>
+            <h2 class="w3-text-white w3-large">Create new workspace</h2>
+            <p class="w3-small w3-text-white">Add members or a department, they will receive a notificition.</p>
+        </header>
+            <div class="w3-container">
+                <form method="POST" class="form-container">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        <label for="name">{{ form.name.label }}</label>
+                        {{ form.name(class="form-control", size=20, id="name") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">{{ form.description.label }}</label>
+                        {{ form.description(class="form-control", rows=3, cols=40, id="description") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="members">{{ form.members.label }}</label>
+                        {{ form.members(class="form-control select-multiple", multiple=True, id="members") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- <footer class="w3-container w3-text-white" style="background-color: #00407d;">
+            <p>Add school manually or upload csv file. Accepted file formats: .csv, .xls, .xlsx</p>
+        </footer> -->
+    </div>
+
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="w3-display-middle w3-margin" style="width:80vw; height: 80vh; overflow-y: auto;">
+
+    <div class="" style="width: 76vw; margin-top: 4%; margin-left: 3%; height: 70vh;">
+        <div class="w3-bar w3-margin-top w3-center tabs-container w3-border image-star-background" style="width: 76vw; height: 65vh; overflow-y: auto;">
+            <div class="tabs">
+                <button class="tab-button w3-small active" data-tab="tab1">Your report this week</button>
+                <button class="tab-button w3-small" data-tab="tab2">Department Reports this week</button>
+                <button class="tab-button w3-small" data-tab="tab4">All Reports</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+
+                    <div class="w3-small w3-left">
+                        <button class="action-btn" onclick="addRow('workstreamsTable')">Add New Row</button>
+                        <button class="action-btn" onclick="saveTable('workstreamsTable')">Save Table</button>
+                    </div>
+                    <table class="w3-small" id="workstreamsTable">
+                        <thead>
+                            <tr>
+                                <th>Report id</th>
+                                <th>Workstreams this week</th>
+                                <th>Progress (%)</th>
+                                <th>Quantity</th>
+                                <th>Target Completion Date</th>
+                                <th>Comments</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in this_week %}
+                                <tr>
+                                    <td contenteditable="true">{{report.id}}</td>
+                                    <td contenteditable="true">{{report.workstream}}</td>
+                                    <td contenteditable="true">{{report.progress}}</td>
+                                    <td contenteditable="true">{{report.quantity}}</td>
+                                    <td>
+                                        <input type="date" class="date-input w3-input" value="{{report.target_completion_date}}" min="{{current_date}}" />
+                                    </td>
+                                    <td contenteditable="true">{{report.comments}}</td>
+                                    <td>
+                                        <button class="action-btn delete-btn" onclick="deleteRow(this)">Save</button>
+                                        <button class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr class="w3-margin">
+                    
+                    <div class="w3-small w3-left">
+                        <button class="action-btn" onclick="addRow('targetsTable')">Add New Row</button>
+                        <button class="action-btn" onclick="saveTable('targetsTable')">Save Table</button>
+                    </div>
+                    <table class="w3-small" id="targetsTable">
+                        <thead>
+                            <tr>
+                                <th>Targets for the following week</th>
+                                <th>Target Completion Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in following_week %}
+                            <tr>
+                                <td contenteditable="true">{{report.target}}</td>
+                                <td>
+                                    <input type="date" class="date-input w3-input" value="{{report.target_completion_date}}" min="{{current_date}}" />
+                                </td>
+                                <td>
+                                    <button class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <script>
+                        function addRow(tableId) {
+                            const table = document.getElementById(tableId).querySelector('tbody');
+                            const newRow = document.createElement('tr');
+                            const columnCount = document.getElementById(tableId).querySelector('thead tr').children.length;
+                    
+                            // Create editable cells based on the table's columns
+                            for (let i = 0; i < columnCount - 1; i++) {
+                                const newCell = document.createElement('td');
+                                if (tableId === 'targetsTable' && i === 1) { // The Target Completion Date column
+                                    const dateInput = document.createElement('input');
+                                    dateInput.type = "date";
+                                    dateInput.className = "date-input";
+                                    dateInput.min = new Date().toISOString().split('T')[0]; // Set minimum date to today
+                                    newCell.appendChild(dateInput);
+                                } else {
+                                    newCell.contentEditable = "true";
+                                    newCell.textContent = ""; // Empty by default
+                                }
+                                newRow.appendChild(newCell);
+                            }
+                    
+                            // Add a hidden ID column for new rows
+                            const idCell = document.createElement('td');
+                            idCell.style.display = "none"; // Hide the ID column
+                            idCell.textContent = "new"; // Mark new rows with "new"
+                            newRow.appendChild(idCell);
+                    
+                            // Add the delete button to the new row
+                            const actionCell = document.createElement('td');
+                            actionCell.innerHTML = '<button class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>';
+                            newRow.appendChild(actionCell);
+                    
+                            table.appendChild(newRow);
+                        }
+                    
+                        function deleteRow(button) {
+                            const row = button.closest('tr');
+                            row.remove();
+                        }
+                    
+                        function saveTable(tableId) {
+                            const table = document.getElementById(tableId);
+                            const rows = table.querySelectorAll('tbody tr');
+                            const tableData = [];
+                    
+                            rows.forEach(row => {
+                                const rowData = {
+                                    id: row.querySelector('td:last-child').textContent.trim(), // Get the row ID
+                                    data: [],
+                                };
+                    
+                                row.querySelectorAll('td').forEach((cell, index) => {
+                                    if (tableId === 'targetsTable' && index === 1) { // The Target Completion Date column
+                                        const dateInput = cell.querySelector('.date-input');
+                                        rowData.data.push(dateInput ? dateInput.value : '');
+                                    } else if (index < 2) { // Other editable columns for TargetsReport
+                                        rowData.data.push(cell.textContent.trim());
+                                    }
+                                });
+                    
+                                tableData.push(rowData);
+                            });
+                    
+                            // Send the data to the backend
+                            fetch(`/save_${tableId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ data: tableData }),
+                            })
+                                .then(response => response.json())
+                                .then(result => {
+                                    alert(result.message);
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('An error occurred while saving the table.');
+                                });
+                        }
+                    </script>
+                    
+                    
+                </div>
+                <div class="tab-pane" id="tab2">This is the content of Tab 2.</div>
+                <div class="tab-pane" id="tab4">This is the content of Tab 4.</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
